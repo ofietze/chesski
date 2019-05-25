@@ -4,7 +4,7 @@ import {INPUT_EVENT_TYPE, MOVE_INPUT_MODE, COLOR, Chessboard} from
 const chess = new Chess()
 
 function random(possibleMoves){
-  return Math.floor(Math.random() * possibleMoves.length)];
+  return Math.floor(Math.random() * possibleMoves.length);
 }
 
 function utility(move) {
