@@ -1520,6 +1520,10 @@ var Chess = function(fen) {
       return ascii();
     },
 
+    board: function() {
+      return board;
+    },
+
     turn: function() {
       return turn;
     },
