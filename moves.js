@@ -3,6 +3,10 @@ import {INPUT_EVENT_TYPE, MOVE_INPUT_MODE, COLOR, Chessboard} from
 
 const chess = new Chess()
 
+function random(possibleMoves){
+  return Math.floor(Math.random() * possibleMoves.length)];
+}
+
 function utility(move) {
   var chessCopy = new Chess(chess.fen());
   chessCopy.move({from: move.from, to: move.to});
@@ -37,7 +41,7 @@ function maxValue(possibleMoves){
     }
   }
   console.log("utility", utilityArr);
-  console.log("max", max); 
+  console.log("max", max);
   return max;
 }
 
