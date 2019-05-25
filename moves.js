@@ -4,7 +4,7 @@ import {INPUT_EVENT_TYPE, MOVE_INPUT_MODE, COLOR, Chessboard} from
 const chess = new Chess()
 
 function random(possibleMoves){
-  return Math.floor(Math.random() * possibleMoves.length)];
+  return Math.floor(Math.random() * possibleMoves.length);
 }
 
 function utility(move) {
@@ -17,11 +17,11 @@ function utility(move) {
   for (var i = 0; i < board.length; i++) {
     if(board[i] != null){
       switch (board[i].type) {
-        case "p": if (board[i].color == "w") {score--} else {score++};break;
-        // case "b":
-        // case "n":board[i].color == "w" ? score-=3 : score+=3;break;
-        // case "r":board[i].color == "w" ? score-=5 : score+=5;break;
-        // case "n":board[i].color == "q" ? score-=9 : score+=9;break;
+        case "p": if(board[i].color == "w") {score--} else {score++};break;
+        case "b":
+        case "n": if(board[i].color == "w") {score-=3} else {score+=3};break;
+        case "r": if(board[i].color == "w") {score-=5} else {score+=5};break;
+        case "q": if(board[i].color == "w") {score-=9} else {score+=9};break;
         default: break;
       }
     }
@@ -36,7 +36,7 @@ function maxValue(possibleMoves){
   for (var i = 0; i < possibleMoves.length; i++) {
     utilityArr[i] = utility(possibleMoves[i]);
 
-    if (utilityArr[i] >= max) {
+    if (utilityArr[i] >= utilityArr[max]) {
       max = i;
     }
   }
