@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>chesski</title>
-    <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0"/>
-    <link rel="stylesheet" href="page.css"/>
-    <link rel="stylesheet" href="cm-chessboard.css"/>
-    <script src="chess.js"></script>
-</head>
-<body>
-<div class="board" id="board" style="margin: auto;"></div>
-<div id="output"><h1>chesski</h1></div>
-<script type="module" src="moves.js"></script>
-</body>
+  <head>
+      <meta charset="UTF-8">
+      <title>chesski</title>
+      <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0"/>
+      <link rel="stylesheet" href="page.css"/>
+      <link rel="stylesheet" href="cm-chessboard.css"/>
+      <script src="chess.js"></script>
+  </head>
+  <body>
+    <div class="board" id="board" style="margin: auto;"></div>
+    <h1>chesski</h1>
+    <div id="output"><div>
+    <div>
+      <input type="radio" id ="rnd" name="heuristic" value="rnd" checked>
+      <label for="rnd"> random</label>
+
+      <input type="radio" id ="mm" name="heuristic" value="mm">
+      <label for="mm"> minimax</label>
+    </div>
+  <script type="module" src="moves.js"></script>
+  </body>
 </html>

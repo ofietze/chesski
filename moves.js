@@ -55,9 +55,16 @@ function inputHandler(event) {
         const result = chess.move(move)
         if (result) {
           if(chess.in_draw()){
-            console.log("draw")
+            document.getElementById("output").innerHTML = "Draw";
           } else if (chess.game_over()) {
-            console.log("game over");;
+            var winMessage = "Game over";
+            if (chess.turn() == "w") {
+              winMessage += " Black won.";
+            } else {
+              winMessage += " White won.";
+            }
+            document.getElementById("output").innerHTML = winMessage;
+            console.log("turn", chess.turn());
           } else {
             event.chessboard.disableMoveInput()
             setTimeout(() => {
@@ -66,7 +73,12 @@ function inputHandler(event) {
                 if (possibleMoves.length > 0) {
                     // choose the best possible move accordinh to the given
                     // heuristic
-                    chess.move(possibleMoves[minimaxDecision(possibleMoves)])
+                    var heuristic = document.querySelector('input[name = "heuristic"]:checked').value;
+                    if (heuristic == "rnd") {
+                        chess.move(possibleMoves[random(possibleMoves)])
+                    } else {
+                        chess.move(possibleMoves[minimaxDecision(possibleMoves)])
+                    }
                     event.chessboard.enableMoveInput(inputHandler, COLOR.white)
                     event.chessboard.setPosition(chess.fen())
                 }
