@@ -1,5 +1,5 @@
 import {INPUT_EVENT_TYPE, MOVE_INPUT_MODE, COLOR, Chessboard} from
-"./node_modules/cm-chessboard/src/cm-chessboard/Chessboard.js"
+"./js/Chessboard.js"
 
 const chess = new Chess()
 
@@ -95,7 +95,7 @@ function inputHandler(event) {
 
 const board = new Chessboard(document.getElementById("board"), {
     position: chess.fen(),
-    sprite: {url: "node_modules/cm-chessboard/assets/images/chessboard-sprite.svg"},
+    sprite: {url: "assets/images/chessboard-sprite.svg"},
     orientation: COLOR.white,
     moveInputMode: MOVE_INPUT_MODE.dragPiece
 })
