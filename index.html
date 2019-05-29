@@ -13,13 +13,14 @@
     <h1>chesski</h1>
     <div id="output"><div>
     <div>
-      <input type="radio" id ="rnd" name="heuristic" value="rnd" checked>
+      <input type="radio" id ="rnd" name="heuristic" value="rnd">
       <label for="rnd"> random</label>
 
-      <input type="radio" id ="mm" name="heuristic" value="mm">
+      <input type="radio" id ="mm" name="heuristic" value="mm" checked>
       <label for="mm"> minimax with lookahead</label>
-      <input type="number" id="lookahead" min="1" max="5" name="lookahead" size="2" placeholder="1">
+      <input type="number" id="lookahead" min="1" max="4" name="lookahead" size="2" value="1">
     </div>
+    <div id="info" ></div>  
   <script type="module" src="moves.js"></script>
   </body>
 </html>

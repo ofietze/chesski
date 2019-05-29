@@ -2,15 +2,14 @@ import {INPUT_EVENT_TYPE, MOVE_INPUT_MODE, COLOR, Chessboard} from
 "./js/Chessboard.js"
 
 const chess = new Chess()
-
+var movesChecked = 0;
 function random(possibleMoves){
   return Math.floor(Math.random() * possibleMoves.length);
 }
 
-function utility(move) {
-  var chessCopy = new Chess(chess.fen());
-  chessCopy.move({from: move.from, to: move.to});
-  var board = chessCopy.board();
+function utility(state) {
+  movesChecked++;
+  var board = state.board();
   var score = 0;
 
   // assuming we are black
@@ -29,24 +28,59 @@ function utility(move) {
   return score;
 }
 
-function maxValue(possibleMoves){
-  var utilityArr = [possibleMoves.length];
-  var max = 0;
+// var chessCopy = new Chess(chess.fen());
+// chessCopy.move({from: move.from, to: move.to});
+function maxValue(state, maxDepth){
+  if (maxDepth == 0){
+    return utility(state)
+  } else {
+    // Copy chess game state
+    var chessState = new Chess(state.fen());
+    var moves = chessState.moves({verbose: true})
+    var utilityArr = [moves.length+1];
+    utilityArr[moves.length] = Number.MIN_SAFE_INTEGER;
+    var maxIndex = moves.length;
 
-  for (var i = 0; i < possibleMoves.length; i++) {
-    utilityArr[i] = utility(possibleMoves[i]);
-
-    if (utilityArr[i] >= utilityArr[max]) {
-      max = i;
+    for (var i = 0; i < moves.length; i++) {
+      chessState.move({from: moves[i].from, to: moves[i].to})
+      utilityArr[i] = Math.max(utilityArr[maxIndex], minValue(chessState, maxDepth-1));
+      chessState.undo()
+      if (utilityArr[i] >= utilityArr[maxIndex]) {
+        maxIndex = i;
+      }
     }
+    return maxIndex;
   }
-  console.log("utility", utilityArr);
-  console.log("max", max);
-  return max;
 }
 
-function minimaxDecision(possibleMoves){
-  return maxValue(possibleMoves)
+function minValue(state, maxDepth){
+  if (maxDepth == 0){
+    return utility(state)
+  } else {
+    // Copy chess game state
+    var chessState = new Chess(state.fen());
+    var moves = chessState.moves({verbose: true})
+    var utilityArr = [moves.length+1];
+    utilityArr[moves.length] = Number.MAX_SAFE_INTEGER;
+    var minIndex = moves.length;
+
+    for (var i = 0; i < moves.length; i++) {
+      chessState.move({from: moves[i].from, to: moves[i].to})
+      utilityArr[i] = Math.min(utilityArr[minIndex], maxValue(chessState, maxDepth-1));
+      chessState.undo()
+      if (utilityArr[i] >= utilityArr[minIndex]) {
+        minIndex = i;
+      }
+    }
+    return minIndex;
+  }
+}
+
+function minimaxDecision(){
+  movesChecked = 0;
+  const res = maxValue(chess, document.getElementById("lookahead").value)
+  document.getElementById("info").innerHTML = movesChecked + " moves Checked";
+  return res;
 }
 
 function inputHandler(event) {
@@ -77,7 +111,7 @@ function inputHandler(event) {
                     if (heuristic == "rnd") {
                         chess.move(possibleMoves[random(possibleMoves)])
                     } else {
-                        chess.move(possibleMoves[minimaxDecision(possibleMoves)])
+                        chess.move(possibleMoves[minimaxDecision()])
                     }
                     event.chessboard.enableMoveInput(inputHandler, COLOR.white)
                     event.chessboard.setPosition(chess.fen())
@@ -85,7 +119,7 @@ function inputHandler(event) {
             })
           }
         } else {
-            console.warn("invalid move", move)
+            document.getElementById("info").innerHTML = "invalid move", move;
         }
         return result
     } else {
