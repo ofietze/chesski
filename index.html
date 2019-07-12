@@ -9,11 +9,14 @@
       <script src="js/chess.js"></script>
       <script type="module" src="moves.js"></script>
   </head>
+
   <body>
     <h1>chesski</h1>
-    <div class="board" id="board" style="margin: auto;"></div>
+    <p>Just drag and drop the white pieces to play</p>
     <div id="output">Human vs. AI<div>
+    <div class="board" id="board" style="margin: auto;"></div>
     <div>
+      Select method:
       <input type="radio" id ="rnd" name="heuristic" value="rnd">
       <label for="rnd"> random</label>
 
@@ -22,9 +25,8 @@
       <input type="number" id="lookahead" min="1" max="4" name="lookahead" size="2" value="1">
     </div>
     <div id="info"></div>
-
+    <div id="outputki">AI vs. AI</div >
     <div class="board" id="kiboard" style="margin: auto;"></div>
-    <div id="outputki">AI vs. AI</div>
     <input type="button" id="kibuttonStart" value="Start ai match">
     <input type="button" id="kibuttonStop" value="Stop">
   </body>

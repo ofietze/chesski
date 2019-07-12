@@ -43,6 +43,14 @@ div.board {
   margin-right: 20px;
   margin-bottom: 20px; }
 
+#info{
+  color:#aaaaff;
+}
+
+#outputki{
+  margin-top: 3%;
+}
+
 #lookahead{
   color:#fff;
   background-color: #333;
