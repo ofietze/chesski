@@ -1,7 +1,7 @@
 import {INPUT_EVENT_TYPE, MOVE_INPUT_MODE, COLOR, Chessboard} from
-"./js/Chessboard.js"
+"./Chessboard.js"
+import {random, minimaxDecision} from './algo.js'
 
-var movesChecked = 0;
 const chess = new Chess();
 const board = new Chessboard(document.getElementById("board"), {
     position: chess.fen(),
@@ -21,6 +21,7 @@ const kiboard = new Chessboard(document.getElementById("kiboard"), {
 
 var started = false;
 var paused = true;
+var graphVisible = false;
 window.onload = function() {
     document.getElementById("kibuttonStart").onclick = function fun() {
         if (!started){
@@ -44,6 +45,15 @@ window.onload = function() {
         kiboard.setPosition(chesski.fen());
         paused = true;
         document.getElementById("kibuttonStart").value = "Start ai match"
+    }
+
+    document.getElementById("graph").style.display = "none";
+    
+    document.getElementById("graphCheck").onclick = function fun(){
+      if (graphVisible) document.getElementById("graph").style.display = "none";
+      else document.getElementById("graph").style.display = "block";
+
+      graphVisible = !graphVisible;
     }
 }
 

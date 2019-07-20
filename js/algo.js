@@ -1,9 +1,30 @@
 
-function random(possibleMoves){
-  return Math.floor(Math.random() * possibleMoves.length);
-}
+import draw, { createEl } from "./drawTreeFromObject.js";
 
-function utility(state) {
+class Node {
+  constructor(chessGame) {
+    if (typeof(chessGame) === 'string'){
+      this.text = chessGame;
+      this.children = [];
+    } else {
+      this.text = chessGame.ascii();
+      this.children = [];
+      const moves = chessGame.moves();
+      for(var i = 0; i < moves.length; i++){
+        chessGame.move(moves[i]);
+        this.children.push(new Node(chessGame.ascii()));
+        chessGame.undo();
+      }
+    }
+  }
+};
+var movesChecked = 0;
+
+export function random(possibleMoves){
+  return Math.floor(Math.random() * possibleMoves.length);
+};
+
+export function utility(state) {
   movesChecked++;
   var board = state.board();
   var score = 0;
@@ -32,9 +53,9 @@ function utility(state) {
     }
   }
   return score;
-}
+};
 
-function maxValue(state, maxDepth){
+export function maxValue(state, maxDepth){
   if (maxDepth == 0){
     return utility(state)
   } else {
@@ -56,9 +77,9 @@ function maxValue(state, maxDepth){
     }
     return maxIndex;
   }
-}
+};
 
-function minValue(state, maxDepth){
+export function minValue(state, maxDepth){
   if (maxDepth == 0){
     return utility(state)
   } else {
@@ -80,13 +101,14 @@ function minValue(state, maxDepth){
     }
     return minIndex;
   }
-}
+};
 
-function minimaxDecision(chessGame){
+export function minimaxDecision(chessGame){
   movesChecked = 0;
   const res = maxValue(chessGame, document.getElementById("lookahead").value)
 
   document.getElementById("info").innerHTML = movesChecked + " moves Checked";
   console.log(movesChecked);
+  draw(".tree", new Node(chessGame));
   return res;
-}
+};

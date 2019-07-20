@@ -6,9 +6,11 @@
       <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0"/>
       <link rel="stylesheet" href="styles/page.css"/>
       <link rel="stylesheet" href="styles/cm-chessboard.css"/>
+      <link rel="stylesheet" href="styles/graph.css">
       <script src="js/chess.js"></script>
-      <script src="algo.js"></script>
-      <script type="module" src="moves.js"></script>
+      <script type="module" src="js/algo.js"></script>
+      <script type="module" src="js/moves.js"></script>
+
   </head>
 
   <body>
@@ -25,8 +27,15 @@
       <label for="mm"><a target="_blank" href="https://en.wikipedia.org/wiki/Minimax">minimax</a>
          with lookahead</label>
       <input type="number" id="lookahead" min="1" max="4" name="lookahead" size="2" value="1">
+      Show graph<input type="checkbox" id ="graphCheck">
+
     </div>
     <div id="info"></div>
+
+    <section id="graph">
+        <div class="tree fixed-width-nodes tf-gap-lg"></div>
+    </section>
+
     <div id="outputki">AI vs. AI</div >
     <div class="board" id="kiboard" style="margin: auto;"></div>
     <input type="button" id="kibuttonStart" value="Start ai match">

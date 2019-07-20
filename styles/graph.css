@@ -1,0 +1,456 @@
+/* setting a size in em makes sure that the gap scales too with the scaling factor */
+.tf-tree {
+  overflow: auto;
+  font-size: 16px;
+}
+.tf-tree * {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+.tf-tree ul {
+  display: inline-flex;
+}
+.tf-tree li {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 0 1em;
+}
+.tf-tree li ul {
+  margin: 2em 0;
+}
+.tf-tree li li:before {
+  display: block;
+  position: absolute;
+  width: 100%;
+  left: calc(0% - 0.03125em);
+  top: calc(-1em - 0.03125em);
+  content: "";
+  border-top: 0.0625em solid #fff;
+  height: 0.0625em;
+}
+.tf-tree li li:first-child:before {
+  left: calc(50% - 0.03125em);
+  max-width: calc(100% - 50% + 0.0625em);
+}
+.tf-tree li li:last-child:before {
+  left: auto;
+  right: calc(50% - 0.03125em);
+  max-width: calc(100% - 50% + 0.0625em);
+}
+.tf-tree li li:only-child:before {
+  display: none;
+}
+.tf-tree li li:only-child > .tf-node-content:before,
+.tf-tree li li:only-child > .tf-nc:before {
+  height: calc(1em + 0.0625em);
+  top: calc(-1em - 0.0625em);
+}
+.tf-tree .tf-node-content, .tf-tree .tf-nc {
+  position: relative;
+  display: inline-block;
+  border: 0.0625em solid #fff;
+  padding: 0.5em 1em;
+}
+.tf-tree .tf-node-content:before, .tf-tree .tf-nc:before {
+  position: absolute;
+  display: block;
+  height: 1em;
+  left: calc(50% - 0.03125em);
+  top: calc(-1em - 0.03125em);
+  content: "";
+  border-left: 0.0625em solid #fff;
+  width: 0.0625em;
+}
+.tf-tree .tf-node-content:after, .tf-tree .tf-nc:after {
+  position: absolute;
+  display: block;
+  height: 1em;
+  left: calc(50% - 0.03125em);
+  top: calc(100% + 0.03125em);
+  content: "";
+  border-left: 0.0625em solid #fff;
+  width: 0.0625em;
+}
+.tf-tree .tf-node-content:only-child:after, .tf-tree .tf-nc:only-child:after {
+  display: none;
+}
+.tf-tree > ul > li > .tf-node-content:before, .tf-tree > ul > li > .tf-nc:before {
+  display: none;
+}
+.tf-tree.tf-gap-sm li {
+  padding: 0 0.6em;
+}
+.tf-tree.tf-gap-sm li > .tf-node-content:before, .tf-tree.tf-gap-sm li > .tf-nc:before {
+  height: 0.6em;
+  top: -0.6em;
+}
+.tf-tree.tf-gap-sm li > .tf-node-content:after, .tf-tree.tf-gap-sm li > .tf-nc:after {
+  height: 0.6em;
+}
+.tf-tree.tf-gap-sm li ul {
+  margin: 1.2em 0;
+}
+.tf-tree.tf-gap-sm li li:before {
+  top: calc(-0.6em - 0.03125em);
+}
+.tf-tree.tf-gap-sm li li:only-child > .tf-node-content:before,
+.tf-tree.tf-gap-sm li li:only-child > .tf-nc:before {
+  height: calc(0.6em + 0.0625em);
+  top: calc(-0.6em - 0.0625em);
+}
+.tf-tree.tf-gap-lg li {
+  padding: 0 1.5em;
+}
+.tf-tree.tf-gap-lg li > .tf-node-content:before, .tf-tree.tf-gap-lg li > .tf-nc:before {
+  height: 1.5em;
+  top: -1.5em;
+}
+.tf-tree.tf-gap-lg li > .tf-node-content:after, .tf-tree.tf-gap-lg li > .tf-nc:after {
+  height: 1.5em;
+}
+.tf-tree.tf-gap-lg li ul {
+  margin: 3em 0;
+}
+.tf-tree.tf-gap-lg li li:before {
+  top: calc(-1.5em - 0.03125em);
+}
+.tf-tree.tf-gap-lg li li:only-child > .tf-node-content:before,
+.tf-tree.tf-gap-lg li li:only-child > .tf-nc:before {
+  height: calc(1.5em + 0.0625em);
+  top: calc(-1.5em - 0.0625em);
+}
+.tf-tree li.tf-dotted-children .tf-node-content:before, .tf-tree li.tf-dotted-children .tf-node-content:after, .tf-tree li.tf-dotted-children .tf-nc:before, .tf-tree li.tf-dotted-children .tf-nc:after {
+  border-left-style: dotted;
+}
+.tf-tree li.tf-dotted-children li:before {
+  border-top-style: dotted;
+}
+.tf-tree li.tf-dotted-children > .tf-node-content:before, .tf-tree li.tf-dotted-children > .tf-nc:before {
+  border-left-style: solid;
+}
+.tf-tree li.tf-dashed-children .tf-node-content:before, .tf-tree li.tf-dashed-children .tf-node-content:after, .tf-tree li.tf-dashed-children .tf-nc:before, .tf-tree li.tf-dashed-children .tf-nc:after {
+  border-left-style: dashed;
+}
+.tf-tree li.tf-dashed-children li:before {
+  border-top-style: dashed;
+}
+.tf-tree li.tf-dashed-children > .tf-node-content:before, .tf-tree li.tf-dashed-children > .tf-nc:before {
+  border-left-style: solid;
+}
+
+html {
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+p {
+  margin-bottom: 1.3em;
+}
+
+h1, h2, h3, h4 {
+  margin: 1.414em 0 0.5em;
+  font-family: "Ubuntu", serif;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+h1, .text-xl {
+  margin-top: 0;
+  font-size: 2.441em;
+}
+
+h2, .text-lg {
+  font-size: 1.953em;
+}
+
+h3, .text-md {
+  font-size: 1.563em;
+}
+
+h4, .text-sm {
+  font-size: 1.25em;
+}
+
+small, .text-xs {
+  font-size: 0.8em;
+}
+
+a {
+  color: inherit;
+  position: relative;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1.25rem;
+  border-bottom: 0.25rem solid #000;
+}
+nav > div {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+nav > div:last-child {
+  margin-left: auto;
+}
+nav > div a {
+  margin: 0 1rem;
+  text-decoration: none;
+}
+nav > div a:after {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  content: "";
+  height: 0.125rem;
+  width: 100%;
+  background-color: #000;
+  transition: 0.125s transform ease-in-out;
+  transform: scaleX(0);
+  transform-origin: center;
+}
+nav > div a:not(.brand):hover:after {
+  transform: scaleX(1);
+}
+
+pre {
+  margin: 0;
+}
+
+pre:not(.unstyled) {
+  padding: 1rem;
+  background-color: #eee;
+  color: #000;
+  border-radius: 5px;
+  overflow-x: auto;
+}
+
+code:not(.unstyled) {
+  font-family: monospace, monospace;
+  background-color: #eee;
+  padding: 0.125em 0.25em;
+  margin: 0 0.25em;
+  border-radius: 3px;
+}
+
+hr {
+  height: 1px;
+  color: #aaa;
+  background-color: #ccc;
+  border: none;
+  display: block;
+  margin: 2rem 0;
+}
+
+footer {
+  background-color: #000;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: 12px;
+  }
+
+  nav {
+    flex-direction: column;
+  }
+  nav > div:last-child {
+    justify-content: space-between;
+    margin: 0.75rem 1rem;
+  }
+  nav > div:last-child > a {
+    margin: 0.5rem 1rem;
+  }
+}
+#intro {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  border-bottom: 0.0625rem solid #000;
+  padding: 5rem 2.5rem 2rem;
+}
+#intro .brand {
+  margin-bottom: 0.5em;
+}
+#intro * {
+  text-align: center;
+}
+#intro > .trees {
+  margin-top: 2.5rem;
+}
+
+#installation, #usage, #examples {
+  padding: 1rem 0 3rem 0;
+  border-bottom: 0.0625rem solid #000;
+}
+
+.brand {
+  margin: 0;
+  font-family: "Ubuntu", serif;
+  text-transform: uppercase;
+}
+
+.fixed-width-nodes span {
+  min-width: 4em;
+  font-family: monospace, monospace;
+}
+
+.hljs {
+  padding: 1rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+.mt-0 {
+  margin-top: 0;
+}
+
+.container {
+  max-width: 1168px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+.container .container-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1em;
+}
+.container .container-header > a {
+  font-size: 0.65em;
+  margin-left: 0.75rem;
+  text-decoration: none;
+}
+
+.example {
+  margin-bottom: 3rem;
+}
+
+.example .content {
+  display: flex;
+  height: 350px;
+}
+.example .content * {
+  box-sizing: border-box;
+}
+.example .content > div {
+  flex-shrink: 0;
+  flex-grow: 1;
+  height: 100%;
+  min-height: 100%;
+}
+.example .content > div:not(:first-child) {
+  padding-left: 1rem;
+}
+.example .content .description {
+  max-width: 30%;
+  min-width: 30%;
+}
+.example .content .code {
+  max-width: 40%;
+  min-width: 40%;
+}
+.example .content .code pre, .example .content .code code {
+  height: 100%;
+}
+.example .content .result {
+  max-width: 30%;
+  min-width: 30%;
+}
+.example .content .result > div {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  text-align: center;
+  height: 100%;
+  overflow: auto;
+}
+.example .content .result .tf-tree {
+  overflow: initial;
+}
+
+.button {
+  display: inline-block;
+  border: 2px solid #000;
+  padding: 0.75rem 2.5rem;
+  text-decoration: none;
+  transition: 0.2s background-color ease-in, 0.2s color ease-in;
+}
+.button:hover {
+  background-color: #000;
+  color: #fafafa;
+}
+
+.try-it-container {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.footer-content {
+  display: flex;
+  padding: 1rem 0;
+}
+.footer-content > div:last-child {
+  margin-left: auto;
+}
+
+@media (max-width: 992px) {
+  .example .content {
+    flex-direction: column;
+  }
+  .example .content > div:not(:first-child) {
+    margin-top: 1rem;
+  }
+
+  .example .content {
+    height: auto;
+    flex-direction: column;
+  }
+  .example .content > div:not(:first-child) {
+    margin-top: 1rem;
+    padding-left: 0;
+  }
+  .example .content .description {
+    max-width: 100%;
+    min-width: 100%;
+  }
+  .example .content .code {
+    max-width: 100%;
+    min-width: 100%;
+  }
+  .example .content .code pre, .example .content .code code {
+    max-height: 350px;
+  }
+  .example .content .result {
+    max-width: 100%;
+    min-width: 100%;
+  }
+}
+@media (max-width: 768px) {
+  .demo-tree {
+    display: none;
+  }
+
+  .demo-tree-sm {
+    display: block;
+  }
+}
+
+/*# sourceMappingURL=main.css.map */
