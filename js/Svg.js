@@ -3,6 +3,11 @@
  * Date: 23.11.2017
  */
 
+ const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
+
+ if (typeof NodeList.prototype.forEach !== "function") { // IE
+     NodeList.prototype.forEach = Array.prototype.forEach;
+ }
 
 export class Svg {
 
