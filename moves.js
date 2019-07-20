@@ -133,6 +133,7 @@ function minValue(state, maxDepth){
 function minimaxDecision(chessGame){
   movesChecked = 0;
   const res = maxValue(chessGame, document.getElementById("lookahead").value)
+
   document.getElementById("info").innerHTML = movesChecked + " moves Checked";
   console.log(movesChecked);
   return res;
