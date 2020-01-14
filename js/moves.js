@@ -1,6 +1,6 @@
 import {INPUT_EVENT_TYPE, MOVE_INPUT_MODE, COLOR, Chessboard} from
 "./Chessboard.js"
-import {random, minimaxDecision} from './algo.js'
+import {random, displayMinimaxDecision} from './algo.js'
 
 const chess = new Chess();
 const board = new Chessboard(document.getElementById("board"), {
@@ -48,7 +48,7 @@ window.onload = function() {
     }
 
     document.getElementById("graph").style.display = "none";
-    
+
     document.getElementById("graphCheck").onclick = function fun(){
       if (graphVisible) document.getElementById("graph").style.display = "none";
       else document.getElementById("graph").style.display = "block";
@@ -85,7 +85,7 @@ function inputHandler(event) {
 
                     switch (heuristic) {
                       // minimax
-                      case "mm":  chess.move(possibleMoves[minimaxDecision(chess)]);
+                      case "mm":  chess.move(possibleMoves[displayMinimaxDecision(chess)]);
                         break;
                       default:
                         chess.move(possibleMoves[random(possibleMoves)]);
@@ -118,7 +118,7 @@ async function aiMatch(){
 
           switch (heuristic) {
             // minimax
-            case "mm":  chesski.move(possibleMoves[minimaxDecision(chesski)]);
+            case "mm":  chesski.move(possibleMoves[displayMinimaxDecision(chesski)]);
               break;
             default:
               chesski.move(possibleMoves[random(possibleMoves)]);

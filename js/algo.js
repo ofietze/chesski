@@ -1,61 +1,43 @@
+var movesChecked = 0; // TODO integrate this into a state of chess state and data about the game
 
-import draw, { createEl } from "./drawTreeFromObject.js";
-
-class Node {
-  constructor(chessGame) {
-    if (typeof(chessGame) === 'string'){
-      this.text = chessGame;
-      this.children = [];
-    } else {
-      this.text = chessGame.ascii();
-      this.children = [];
-      const moves = chessGame.moves();
-      for(var i = 0; i < moves.length; i++){
-        chessGame.move(moves[i]);
-        this.children.push(new Node(chessGame.ascii()));
-        chessGame.undo();
-      }
-    }
-  }
-};
-var movesChecked = 0;
-
-export function random(possibleMoves){
+function random(possibleMoves){
   return Math.floor(Math.random() * possibleMoves.length);
 };
 
-export function utility(state) {
+function utility(state) {
   movesChecked++;
   var board = state.board();
   var score = 0;
 
   for (var i = 0; i < board.length; i++) {
-    if(board[i] != null && state.turn() == "b"){
-      switch (board[i].type) {
-        case "p": if(board[i].color == "w") {score--} else {score++};break;
-        case "b":
-        case "n": if(board[i].color == "w") {score-=3} else {score+=3};break;
-        case "r": if(board[i].color == "w") {score-=5} else {score+=5};break;
-        case "q": if(board[i].color == "w") {score-=9} else {score+=9};break;
-        case "k": if(board[i].color == "w") {score-=12} else {score+=12};break;
-        default: break;
-      }
-    } else if(board[i] != null && state.turn() == "w"){
-      switch (board[i].type) {
-        case "p": if(board[i].color == "w") {score++} else {score--};break;
-        case "b":
-        case "n": if(board[i].color == "w") {score+=3} else {score-=3};break;
-        case "r": if(board[i].color == "w") {score+=5} else {score-=5};break;
-        case "q": if(board[i].color == "w") {score+=9} else {score-=9};break;
-        case "k": if(board[i].color == "w") {score+=12} else {score-=12};break;
-        default: break;
+    if (board[i] != null) {
+      if(state.turn() === "b"){
+        switch (String(board[i].type)) {
+          case "p": if(board[i].color === "w") {score--} else {score++};break;
+          case "b":
+          case "n": if(board[i].color === "w") {score-=3} else {score+=3};break;
+          case "r": if(board[i].color === "w") {score-=5} else {score+=5};break;
+          case "q": if(board[i].color === "w") {score-=9} else {score+=9};break;
+          case "k": if(board[i].color === "w") {score-=12} else {score+=12};break;
+          default: break;
+        }
+      } else if(state.turn() === "w"){
+        switch (String(board[i].type)) {
+          case "p": if(board[i].color === "w") {score++;} else {score--};break;
+          case "b":
+          case "n": if(board[i].color === "w") {score+=3} else {score-=3};break;
+          case "r": if(board[i].color === "w") {score+=5} else {score-=5};break;
+          case "q": if(board[i].color === "w") {score+=9} else {score-=9};break;
+          case "k": if(board[i].color === "w") {score+=12} else {score-=12};break;
+          default: break;
+        }
       }
     }
   }
   return score;
 };
 
-export function maxValue(state, maxDepth){
+function maxValue(state, maxDepth){
   if (maxDepth == 0){
     return utility(state)
   } else {
@@ -79,7 +61,7 @@ export function maxValue(state, maxDepth){
   }
 };
 
-export function minValue(state, maxDepth){
+function minValue(state, maxDepth){
   if (maxDepth == 0){
     return utility(state)
   } else {
@@ -103,12 +85,19 @@ export function minValue(state, maxDepth){
   }
 };
 
-export function minimaxDecision(chessGame){
+function minimaxDecision(chessGame, maxDepth){
   movesChecked = 0;
-  const res = maxValue(chessGame, document.getElementById("lookahead").value)
+  return maxValue(chessGame, maxDepth);
+};
+
+function displayMinimaxDecision(chessGame) {
+  movesChecked = 0;
+  const res = minimaxDecision(chessGame, document.getElementById("lookahead").value)
 
   document.getElementById("info").innerHTML = movesChecked + " moves Checked";
   console.log(movesChecked);
-  draw(".tree", new Node(chessGame));
+  // draw(".tree", new Node(chessGame));
   return res;
-};
+}
+
+// export { random, displayMinimaxDecision }
