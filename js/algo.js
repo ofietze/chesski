@@ -21,7 +21,7 @@ function utility(state) {
           case "k": if(board[i].color === "w") {score-=12} else {score+=12};break;
           default: break;
         }
-      } else if(state.turn() === "w"){
+      } else if(state.turn() === "w") {
         switch (String(board[i].type)) {
           case "p": if(board[i].color === "w") {score++;} else {score--};break;
           case "b":
@@ -37,57 +37,41 @@ function utility(state) {
   return score;
 };
 
-function maxValue(state, maxDepth){
+// @param {chess} state:    a chess state
+// @param {int}   maxDepth: how many moves should be checked
+// @return {int[]}: containing the index of the highest value move and the value itself
+function negaMaxValue(state, maxDepth){
   if (maxDepth == 0){
-    return utility(state)
+    return new Array(0, utility(state))
   } else {
     // Copy chess game state
     var chessState = new Chess(state.fen());
     var moves = chessState.moves({verbose: true})
+    // Make array one cell to big to save lowest int
     var utilityArr = [moves.length+1];
     utilityArr[moves.length] = Number.MIN_SAFE_INTEGER;
-    var maxIndex = moves.length;
+    var maxIndex = moves.length; // init max to lowest int
 
+    // Apply each move and check it's utility
+    // Might go down several levels of recursion depending on maxDepth
     for (var i = 0; i < moves.length; i++) {
       chessState.move({from: moves[i].from, to: moves[i].to})
-      utilityArr[i] = Math.max(utilityArr[maxIndex], minValue(chessState,
-        maxDepth-1));
+      // Call minValue and compare it
+      utilityArr[i] = Math.max(utilityArr[moves.length], negaMaxValue(chessState,
+        maxDepth-1)[1]*-1);
       chessState.undo()
+      // Update highest value move
       if (utilityArr[i] >= utilityArr[maxIndex]) {
         maxIndex = i;
       }
     }
-    return maxIndex;
-  }
-};
-
-function minValue(state, maxDepth){
-  if (maxDepth == 0){
-    return utility(state)
-  } else {
-    // Copy chess game state
-    var chessState = new Chess(state.fen());
-    var moves = chessState.moves({verbose: true})
-    var utilityArr = [moves.length+1];
-    utilityArr[moves.length] = Number.MAX_SAFE_INTEGER;
-    var minIndex = moves.length;
-
-    for (var i = 0; i < moves.length; i++) {
-      chessState.move({from: moves[i].from, to: moves[i].to})
-      utilityArr[i] = Math.min(utilityArr[minIndex], maxValue(chessState,
-        maxDepth-1));
-      chessState.undo()
-      if (utilityArr[i] >= utilityArr[minIndex]) {
-        minIndex = i;
-      }
-    }
-    return minIndex;
+    return new Array(maxIndex, utilityArr[maxIndex]);
   }
 };
 
 function minimaxDecision(chessGame, maxDepth){
   movesChecked = 0;
-  return maxValue(chessGame, maxDepth);
+  return negaMaxValue(chessGame, maxDepth)[0];
 };
 
 function displayMinimaxDecision(chessGame) {
@@ -95,9 +79,7 @@ function displayMinimaxDecision(chessGame) {
   const res = minimaxDecision(chessGame, document.getElementById("lookahead").value)
 
   document.getElementById("info").innerHTML = movesChecked + " moves Checked";
-  console.log(movesChecked);
-  // draw(".tree", new Node(chessGame));
   return res;
 }
 
-// export { random, displayMinimaxDecision }
+export { random, displayMinimaxDecision }
