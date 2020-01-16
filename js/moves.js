@@ -46,15 +46,15 @@ window.onload = function() {
         paused = true;
         document.getElementById("kibuttonStart").value = "Start ai match"
     }
-
-    document.getElementById("graph").style.display = "none";
-
-    document.getElementById("graphCheck").onclick = function fun(){
-      if (graphVisible) document.getElementById("graph").style.display = "none";
-      else document.getElementById("graph").style.display = "block";
-
-      graphVisible = !graphVisible;
-    }
+    // TODO see index.html, rework
+    // document.getElementById("graph").style.display = "none";
+    //
+    // document.getElementById("graphCheck").onclick = function fun(){
+    //   if (graphVisible) document.getElementById("graph").style.display = "none";
+    //   else document.getElementById("graph").style.display = "block";
+    //
+    //   graphVisible = !graphVisible;
+    // }
 }
 
 function inputHandler(event) {

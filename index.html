@@ -24,20 +24,21 @@
       <label for="rnd"> random</label>
 
       <input type="radio" id ="mm" name="heuristic" value="mm" checked>
-      <label for="mm"><a target="_blank" href="https://en.wikipedia.org/wiki/Minimax">minimax</a>
-         with lookahead</label>
+      <label for="mm"><a target="_blank" href="https://en.wikipedia.org/wiki/Minimax">minimax</a></label>
 
       <input type="radio" id ="ab" name="heuristic" value="ab">
-        <label for="ab"> alphaBeta</label>
+        <label for="ab" target="_blank" href="https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning"> alphaBeta</label>
+
+      <br>Select lookahead:
       <input type="number" id="lookahead" min="1" max="4" name="lookahead" size="2" value="1">
-      Show graph<input type="checkbox" id ="graphCheck">
+      <!-- Show graph<input type="checkbox" id ="graphCheck"> -->
 
     </div>
     <div id="info"></div>
-
-    <section id="graph">
+    <!-- Dont show graph for now, TODO rework -->
+    <!-- <section id="graph">
         <div class="tree fixed-width-nodes tf-gap-lg"></div>
-    </section>
+    </section> -->
 
     <div id="outputki">AI vs. AI</div >
     <div class="board" id="kiboard" style="margin: auto;"></div>
