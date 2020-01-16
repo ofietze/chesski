@@ -122,10 +122,11 @@ async function aiMatch(chessgame){
           // TODO add alpha beta
           switch (heuristic) {
             // minimax
-            case "mm":  chessgame.move(possibleMoves[displayMinimaxDecision(chesski)]);
+            case "mm": chessgame.move(possibleMoves[displayMinimaxDecision(chessgame)]);
               break;
-            default:
-              chessgame.move(possibleMoves[random(possibleMoves)]);
+            case "ab": chessgame.move(possibleMoves[alphaBeta(chessgame)]);
+              break;
+            default: chessgame.move(possibleMoves[random(possibleMoves)]);
           }
         kiboard.setPosition(chessgame.fen())
         await sleep(1000);

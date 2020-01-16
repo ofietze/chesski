@@ -1,4 +1,5 @@
 var movesChecked = 0; // TODO integrate this into a state of chess state and data about the game
+const MAX_LOOKAHEAD = 4;
 
 function random(possibleMoves){
   return Math.floor(Math.random() * possibleMoves.length);
@@ -74,9 +75,21 @@ function minimaxDecision(chessGame, maxDepth){
   return negaMaxValue(chessGame, maxDepth)[0];
 };
 
+function checkLookahead() {
+  var lookahead = document.getElementById("lookahead").value
+  if (lookahead < 1 || lookahead > MAX_LOOKAHEAD) {
+    lookahead = 1;
+    document.getElementById("errors").innerHTML = "Lookahead must be between 1 and " + MAX_LOOKAHEAD +". Using 1 instead.";
+  } else {
+    document.getElementById("errors").innerHTML = "";
+  }
+  return lookahead;
+}
+
 function displayMinimaxDecision(chessGame) {
   movesChecked = 0;
-  const res = minimaxDecision(chessGame, document.getElementById("lookahead").value)
+  var lookahead = checkLookahead();
+  const res = minimaxDecision(chessGame, lookahead)
 
   document.getElementById("info").innerHTML = movesChecked + " moves Checked";
   return res;
@@ -84,7 +97,8 @@ function displayMinimaxDecision(chessGame) {
 
 function alphaBeta(chessGame){
  movesChecked = 0;
- const res = maxValueBeta(chessGame, Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER, document.getElementById("lookahead").value)
+ var lookahead = checkLookahead();
+ const res = maxValueBeta(chessGame, Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER, lookahead);
 
  document.getElementById("info").innerHTML = movesChecked + " moves Checked";
  console.log(movesChecked);
