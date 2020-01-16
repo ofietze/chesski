@@ -1,6 +1,6 @@
 import {INPUT_EVENT_TYPE, MOVE_INPUT_MODE, COLOR, Chessboard} from
 "./Chessboard.js"
-import {random, minimaxDecision, alphaBeta} from './algo.js'
+import {random, displayMinimaxDecision, alphaBeta} from './algo.js'
 
 const chess = new Chess();
 const board = new Chessboard(document.getElementById("board"), {
@@ -85,7 +85,7 @@ function inputHandler(event) {
 
                     switch (heuristic) {
                       // minimax
-                      case "mm":  chess.move(possibleMoves[minimaxDecision(chess)]);
+                      case "mm":  chess.move(possibleMoves[displayMinimaxDecision(chess)]);
                         break;
                       // alpha beta
                       case "ab": chess.move(possibleMoves[alphaBeta(chess)]);
@@ -122,7 +122,7 @@ async function aiMatch(chessgame){
           // TODO add alpha beta
           switch (heuristic) {
             // minimax
-            case "mm":  chessgame.move(possibleMoves[minimaxDecision(chessgame)]);
+            case "mm":  chessgame.move(possibleMoves[displayMinimaxDecision(chesski)]);
               break;
             default:
               chessgame.move(possibleMoves[random(possibleMoves)]);
