@@ -4,6 +4,7 @@
       <meta charset="UTF-8">
       <title>chesski</title>
       <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0"/>
+      <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
       <link rel="stylesheet" href="styles/page.css"/>
       <link rel="stylesheet" href="styles/cm-chessboard.css"/>
       <link rel="stylesheet" href="styles/graph.css">
@@ -14,12 +15,13 @@
   </head>
 
   <body>
-    <h1>chesski</h1>
+    <h1>chess<label class="colored">ki</label></h1>
     <p>Just drag and drop the white pieces to play</p>
-    <div id="output">Human vs. AI<div>
+    <h3>You vs. AI</h3>
+    <div id="output" class="colored"></div>
     <div class="board" id="board" style="margin: auto;"></div>
-    <div>
-      Select method:
+    <div id="selection">
+      Select algorithm:
       <input type="radio" id ="rnd" name="heuristic" value="rnd">
       <label for="rnd"> random</label>
 
@@ -27,20 +29,21 @@
       <label for="mm"><a target="_blank" href="https://en.wikipedia.org/wiki/Minimax">minimax</a></label>
 
       <input type="radio" id ="ab" name="heuristic" value="ab">
-        <label for="ab" target="_blank" href="https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning"> alphaBeta</label>
+        <label for="ab"><a target="_blank" href="https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning"> alphaBeta</a></label>
 
-      <br>Select lookahead:
+      <br>Select how many steps to look ahead:
       <input type="number" id="lookahead" min="1" max="4" name="lookahead" size="2" value="1">
       <!-- Show graph<input type="checkbox" id ="graphCheck"> -->
 
     </div>
-    <div id="info"></div>
+    <div id="info" class="colored"></div>
+    <div id="errors" class="colored"></div>
     <!-- Dont show graph for now, TODO rework -->
     <!-- <section id="graph">
         <div class="tree fixed-width-nodes tf-gap-lg"></div>
     </section> -->
-
-    <div id="outputki">AI vs. AI</div >
+    <h3>AI vs. AI</h3>
+    <div id="outputki" class="colored"></div >
     <div class="board" id="kiboard" style="margin: auto;"></div>
     <input type="button" id="kibuttonStart" value="Start ai match">
     <input type="button" id="kibuttonStop" value="Stop">
