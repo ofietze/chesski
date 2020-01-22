@@ -1,6 +1,6 @@
 import {INPUT_EVENT_TYPE, MOVE_INPUT_MODE, COLOR, Chessboard} from
 "./Chessboard.js"
-import {random, displayMinimaxDecision} from './algo.js'
+import {random, displayMinimaxDecision, alphaBeta} from './algo.js'
 
 const chess = new Chess();
 const board = new Chessboard(document.getElementById("board"), {
@@ -13,7 +13,7 @@ board.enableMoveInput(inputHandler, COLOR.white)
 
 const chesski = new Chess();
 const kiboard = new Chessboard(document.getElementById("kiboard"), {
-    position: chess.fen(),
+    position: chesski.fen(),
     sprite: {url: "assets/images/chessboard-sprite.svg"},
     orientation: COLOR.white,
     moveInputMode: MOVE_INPUT_MODE.viewOnly
@@ -26,7 +26,7 @@ window.onload = function() {
     document.getElementById("kibuttonStart").onclick = function fun() {
         if (!started){
           paused = false;
-          aiMatch();
+          aiMatch(chesski);
         } else {
           paused = !paused;
         }
@@ -35,7 +35,7 @@ window.onload = function() {
           document.getElementById("kibuttonStart").value = "Continue"
         } else {
           // continue match
-          aiMatch();
+          aiMatch(chesski);
           document.getElementById("kibuttonStart").value = "Pause"
         }
         started = true;
@@ -46,15 +46,15 @@ window.onload = function() {
         paused = true;
         document.getElementById("kibuttonStart").value = "Start ai match"
     }
-
-    document.getElementById("graph").style.display = "none";
-
-    document.getElementById("graphCheck").onclick = function fun(){
-      if (graphVisible) document.getElementById("graph").style.display = "none";
-      else document.getElementById("graph").style.display = "block";
-
-      graphVisible = !graphVisible;
-    }
+    // TODO see index.html, rework
+    // document.getElementById("graph").style.display = "none";
+    //
+    // document.getElementById("graphCheck").onclick = function fun(){
+    //   if (graphVisible) document.getElementById("graph").style.display = "none";
+    //   else document.getElementById("graph").style.display = "block";
+    //
+    //   graphVisible = !graphVisible;
+    // }
 }
 
 function inputHandler(event) {
@@ -87,6 +87,9 @@ function inputHandler(event) {
                       // minimax
                       case "mm":  chess.move(possibleMoves[displayMinimaxDecision(chess)]);
                         break;
+                      // alpha beta
+                      case "ab": chess.move(possibleMoves[alphaBeta(chess)]);
+                        break;
                       default:
                         chess.move(possibleMoves[random(possibleMoves)]);
                     }
@@ -108,31 +111,33 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function aiMatch(){
-  while (!chesski.game_over() && !paused) {
-      const possibleMoves = chesski.moves({verbose: true})
+async function aiMatch(chessgame){
+  while (!chessgame.game_over() && !paused) {
+      const possibleMoves = chessgame.moves({verbose: true})
       if (possibleMoves.length > 0) {
           // choose the best possible move according to the given
           // heuristic
           var heuristic = document.querySelector('input[name="heuristic"]:checked').value;
 
+          // TODO add alpha beta
           switch (heuristic) {
             // minimax
-            case "mm":  chesski.move(possibleMoves[displayMinimaxDecision(chesski)]);
+            case "mm": chessgame.move(possibleMoves[displayMinimaxDecision(chessgame)]);
               break;
-            default:
-              chesski.move(possibleMoves[random(possibleMoves)]);
+            case "ab": chessgame.move(possibleMoves[alphaBeta(chessgame)]);
+              break;
+            default: chessgame.move(possibleMoves[random(possibleMoves)]);
           }
-        kiboard.setPosition(chesski.fen())
+        kiboard.setPosition(chessgame.fen())
         await sleep(1000);
       }
   }
 
-  if(chesski.in_draw()){
+  if(chessgame.in_draw()){
     document.getElementById("outputki").innerHTML = "Draw";
-  } else if (chesski.game_over()) {
+  } else if (chessgame.game_over()) {
     var winMessage = "Game over";
-    if (chesski.turn() == "w") {
+    if (chessgame.turn() == "w") {
       winMessage += " Black won.";
     } else {
       winMessage += " White won.";
