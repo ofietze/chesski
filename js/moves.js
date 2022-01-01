@@ -129,10 +129,14 @@ async function aiMatch(chessgame){
 
           // TODO add alpha beta
           switch (heuristic) {
-            // minimax
-            case "mm": chessgame.move(possibleMoves[displayMinimaxDecision(chessgame)]);
-              break;
-            case "ab": chessgame.move(possibleMoves[alphaBeta(chessgame)]);
+             // minimax
+             case "mm":  const evaluation = displayMinimaxDecision(chessgame);
+             chessgame.move(evaluation.bestMove);
+             updateTextField(EVAL, evaluation.bestMove + " | " + evaluation.utility);
+             updateTextField(INFO, evaluation.movesChecked + " move(s) checked");
+             break;
+            // alpha beta
+            case "ab": chessgame.move(alphaBeta(chess));
               break;
             default: chessgame.move(possibleMoves[random(possibleMoves)]);
           }
