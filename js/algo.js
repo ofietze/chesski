@@ -1,5 +1,14 @@
+export { displayMinimaxDecision, alphaBeta, random }
+
 var movesChecked = 0; // TODO integrate this into a state of chess state and data about the game
 const MAX_LOOKAHEAD = 4;
+class Evaluation {
+  constructor(bestMove, utility, movesChecked) {
+    this.bestMove = bestMove;
+    this.utility = utility;
+    this.movesChecked = movesChecked;
+  }
+}
 
 function random(possibleMoves){
   return Math.floor(Math.random() * possibleMoves.length);
@@ -47,7 +56,7 @@ function negaMaxValue(state, maxDepth){
   } else {
     // Copy chess game state
     var chessState = new Chess(state.fen());
-    var moves = chessState.moves({verbose: true})
+    var moves = chessState.moves()
     // Make array one cell to big to save lowest int
     var utilityArr = [moves.length+1];
     utilityArr[moves.length] = Number.MIN_SAFE_INTEGER;
@@ -56,7 +65,7 @@ function negaMaxValue(state, maxDepth){
     // Apply each move and check it's utility
     // Might go down several levels of recursion depending on maxDepth
     for (var i = 0; i < moves.length; i++) {
-      chessState.move({from: moves[i].from, to: moves[i].to})
+      chessState.move(moves[i]);
       // Call minValue and compare it
       utilityArr[i] = Math.max(utilityArr[moves.length], negaMaxValue(chessState,
         maxDepth-1)[1]*-1);
@@ -72,7 +81,7 @@ function negaMaxValue(state, maxDepth){
 
 function minimaxDecision(chessGame, maxDepth){
   movesChecked = 0;
-  return negaMaxValue(chessGame, maxDepth)[0];
+  return negaMaxValue(chessGame, maxDepth);
 };
 
 function checkLookahead() {
@@ -89,21 +98,23 @@ function checkLookahead() {
 function displayMinimaxDecision(chessGame) {
   movesChecked = 0;
   var lookahead = checkLookahead();
-  const res = minimaxDecision(chessGame, lookahead)
+  const res = minimaxDecision(chessGame, lookahead);
+  const index = res[0];
+  const utility = res[1];
 
   document.getElementById("info").innerHTML = movesChecked + " moves Checked";
-  return res;
+  const bestMove = chessGame.moves()[index];
+  return new Evaluation(bestMove, utility, movesChecked);
 };
 
 function alphaBeta(chessGame){
  movesChecked = 0;
  var lookahead = checkLookahead();
- const res = maxValueBeta(chessGame, Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER, lookahead);
+ const index = maxValueBeta(chessGame, Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER, lookahead);
 
  document.getElementById("info").innerHTML = movesChecked + " moves Checked";
- console.log(movesChecked);
- console.log(res);
- return res;
+ const bestMove = chessGame.moves({verbose: true})[index];
+ return bestMove;
 }
 
 function maxValueBeta(state, alpha, beta, maxDepth){
@@ -160,5 +171,3 @@ function minValueBeta(state, alpha, beta, maxDepth){
    return minIndex;
  }
 };
-
-export { displayMinimaxDecision, alphaBeta, random }

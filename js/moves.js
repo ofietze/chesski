@@ -1,6 +1,11 @@
 import {INPUT_EVENT_TYPE, MOVE_INPUT_MODE, COLOR, Chessboard} from
 "./Chessboard.js"
 import {random, displayMinimaxDecision, alphaBeta} from './algo.js'
+import {updateTextField} from './utils.js'
+// ids of text fields in html
+const OUTPUT = "output";
+const INFO =  "info";
+const EVAL = "evalInfo"; 
 
 const chess = new Chess();
 const board = new Chessboard(document.getElementById("board"), {
@@ -63,7 +68,7 @@ function inputHandler(event) {
         const result = chess.move(move)
         if (result) {
           if(chess.in_draw()){
-            document.getElementById("output").innerHTML = "Draw";
+            updateTextField(OUTPUT, "Draw");
           } else if (chess.game_over()) {
             var winMessage = "Game over";
             if (chess.turn() == "w") {
@@ -71,7 +76,7 @@ function inputHandler(event) {
             } else {
               winMessage += " White won.";
             }
-            document.getElementById("output").innerHTML = winMessage;
+            updateTextField(OUTPUT, winMessage);
           } else {
             // make the next move
             event.chessboard.disableMoveInput()
@@ -85,10 +90,13 @@ function inputHandler(event) {
 
                     switch (heuristic) {
                       // minimax
-                      case "mm":  chess.move(possibleMoves[displayMinimaxDecision(chess)]);
-                        break;
+                      case "mm":  const evaluation = displayMinimaxDecision(chess);
+                                  chess.move(evaluation.bestMove);
+                                  updateTextField(EVAL, evaluation.bestMove + " | " + evaluation.utility);
+                                  updateTextField(INFO, evaluation.movesChecked + " move(s) checked");
+                                  break;
                       // alpha beta
-                      case "ab": chess.move(possibleMoves[alphaBeta(chess)]);
+                      case "ab": chess.move(alphaBeta(chess));
                         break;
                       default:
                         chess.move(possibleMoves[random(possibleMoves)]);
@@ -99,7 +107,7 @@ function inputHandler(event) {
             })
           }
         } else {
-            document.getElementById("info").innerHTML = "invalid move", move;
+            updateTextField(INFO, "invalid move ");
         }
         return result
     } else {
@@ -133,8 +141,9 @@ async function aiMatch(chessgame){
       }
   }
 
+  var message;
   if(chessgame.in_draw()){
-    document.getElementById("outputki").innerHTML = "Draw";
+    message = "Draw";
   } else if (chessgame.game_over()) {
     var winMessage = "Game over";
     if (chessgame.turn() == "w") {
@@ -142,6 +151,7 @@ async function aiMatch(chessgame){
     } else {
       winMessage += " White won.";
     }
-    document.getElementById("outputki").innerHTML = winMessage;
+    message = winMessage;
   }
+  updateTextField("outputki", message);
 }
